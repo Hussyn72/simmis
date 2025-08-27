@@ -52,11 +52,11 @@ A centralized platform to manage the complete lifecycle of SIM cards, including 
 
 | **Category**      | **Technology**          |
 |-------------------|-------------------------|
-| **Backend**      | Node.js / Express.js    |
-| **Frontend**     | React / Angular (if applicable) |
-| **Database**     | PostgreSQL / MySQL      |
+| **Backend**      | C++ & PHP   |
+| **Frontend**     | Html,css,js |
+| **Database**     | PostgreSQL    |
 | **Authentication** | JWT / OAuth 2.0        |
-| **Cloud/Hosting** | AWS / Azure / On-Prem  |
+| **Cloud/Hosting** | AWS  |
 | **3rd Party APIs** | Shiprocket, Bluedart, Telecom Operator APIs |
 | **Version Control** | Git & GitHub          |
 
@@ -78,7 +78,7 @@ A centralized platform to manage the complete lifecycle of SIM cards, including 
 ```
 simmis/
 ├── backend/ # API services
-├── frontend/ # UI (if applicable)
+├── frontend/ # UI 
 ├── docs/ # Documentation & API references
 ├── integrations/ # Shiprocket, Bluedart, SP-API, etc.
 ├── scripts/ # Automation scripts & cron jobs
