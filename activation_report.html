@@ -1,0 +1,186 @@
+<head>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<div id='active_summary' class='css_reset'>
+	<input id='section_id' value='active_summary' type='hidden' />   
+	<div id='report_filter' class='inline'>
+		<form id='activation_report_form' action='' >
+			<div class='left_float'><a id='report_download_link' class='button inline' href='#'>Download</a></div>
+			<div class='date_msg inline_block'></div>
+			<div class='feedback_msg inline_block'></div>
+
+			<div>
+				<label for='filter_country'>Countries/Documents/Shipments</label>
+				<select name='country' id='filter_country' >
+					<option value='All'>Select</option>
+					<!--Filled by ajax -->
+				</select>
+			</div>
+			<div id="tsim_date_activation">
+				<label for='filter_active'>To Date (Optional)</label>
+				<!--	<select name='active' id='filter_active'>
+					<option value='both'>Both</option>
+					<option value='true' class='active_sim'>Yes</option>
+					<option value='false' class='inactive_sim'>No</option>
+				</select> --> 
+				<input type="date" id='to_date_act_form' name='to_date_act_form'/>
+				<label for='filter_active'>Activation/Shipments Date</label>
+				<input type="date" id='active_date' name='date'/> 
+			</div>
+		</form>
+	</div>
+	<div class='all_docs' style='display:none;'>Show all documents <input type='checkbox' id='all_documents'></div>
+	<div class='all_imei' style='display:none;'>Show all IMEI <input type='checkbox' id='all_imei'></div>
+	<div style="display:none;" id='stock_list_display'>
+		<table id='stock_list_table' class='summary_table'>
+			<thead>
+				<tr>
+					<th>OrderNumber</th>
+					<th>ClientName</th>
+					<th>EmailId</th>
+					<th style="width:100px">ActivationDate</th>
+					<th>SimPhoneNumber</th>
+					<th>SimSerialNumber</th>
+					<th>BookingDate</th>
+					<th>Network</th>
+					<th style="display:none;">Plan</th>
+					<th>Plan</th>
+					<th> Pin_No </th>
+                                        <th> PUK_1 </th>
+					<th>Status</th>
+					<th>Payment</th>
+					<th>
+                                                <div class="tooltip">
+                                                AmazonMarketPlace
+                                                  <span class="tooltiptext"> AmazonMarketPlace ->  Oversea Amazon Customers <br>
+                                                        handset model -> Indian Customers                                </span>
+                                                </div>
+			</th>
+					<th>Document</th>
+					<th>IMEI Compatibility</th>
+					<th>QRText</th>
+					<th>Comment</th>
+					<th>Active</th>
+					<th style="width:100px">Action</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div style="display:none;" id='documents_list_display'>
+		<table id='documents_list_table' class='summary_table'>
+			<thead>
+				<tr>
+					<th id="doc_ver_chk_box"></th>
+					<th>OrderNumber</th>
+					<th>Username</th>
+					<th>Passport number</th>
+					<th>Traveller's name</th>
+					<th>City of issue</th>	
+					<th>Expiry date</th>
+					<th>Document 1</th>	
+					<th>Document 2</th>
+					<th>Document 3</th>
+					<th>Order Received Date</th>
+					<th>From Date</th>
+                                        <th>Comments if any  </th>
+                                        <th>RemainderCall</th>
+				</tr>
+			</thead>
+			<tbody id='documents_list_tbody'>
+			</tbody>
+		</table>
+		<!--	<div id='display_tsim_iframes'>Info</div> -->
+	</div>
+	<div style="display:none;" id='shipping_list_display'>
+		<table><tr>
+			<td width="10" height="10" style="background-color:lightskyblue;"></td>
+			<td>Bluedart & Fedex labels are not created</td>
+			<td width="20"></td>
+			<td width="10" height="10" style="background-color:#20b2aa;"></td>
+			<td>Order packed!</td>
+			<td width="20"></td>
+			<td width="10" height="10" style="background-color:#90ee90"></td>
+			<td>Documents verified!</td>		
+			<td width="20"></td>
+			<td>Note: Packed orders will be shown in the lower part of the table.</td>
+		</tr></table>
+		<table id='shipping_list_table' class='summary_table'>
+			<thead>
+				<tr>
+					<th id="label_ver_chk_box"></th>
+					<th>OrderNumber</th>
+					<th>Booking date</th>
+					<th>Shipping method</th>
+					<th>City</th>
+					<th>Bluedart Waybill no</th>
+					<th>Shiprocket Waybill no</th>
+					<th>Done by sales person (Comments if any)</th>
+					<th>Documents</th>
+					<th>Item Type</th>
+				</tr>
+			</thead>
+			<tbody id='shipping_list_tbody'>
+			</tbody>
+		</table>
+	</div>
+
+	<!--ISSUE 3100-->
+
+ 	<div style="display:none;" id='check_imei_list_display'>
+                <table id='imei_list_table' class='summary_table'>
+                        <thead>
+                                <tr>
+                                        <th id="imei_chk_box"></th>
+                                        <th>OrderNumber</th>
+                                        <th>Email</th>
+                                        <th>Activation Date</th>
+                                        <th>Booking Date</th>
+                                        <th>IMEI Number</th>
+                                        <th style="width:30%;">Comments if any  </th>
+					<th>Action</th>
+                                </tr>
+                        </thead>
+                        <tbody id='imei_list_tbody'>
+                        </tbody>
+                </table>
+                <!--    <div id='display_tsim_iframes'>Info</div> -->
+        </div>
+	
+
+
+
+
+
+
+</div>
+<style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 360px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
+

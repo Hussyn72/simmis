@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Activation</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js?v=1"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js?v=1"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v=1"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js?v=1" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js?v=1" type="text/javascript"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js?v=1"></script>
+        <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js?v=1"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.8/sweetalert2.all.js" integrity="sha512-mDHahYvyhRtp6zBGslYxaLlAiINPDDEoHDD7nDsHoLtua4To71lDTHjDL1bCoAE/Wq/I+7ONeFMpgr62i5yUzw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+       <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+	 <script src="pdf.js"></script>
+        <script src="pdf.worker.js"></script> 
+        <!-- Include the QRCode.js library -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.js" integrity="sha512-is1ls2rgwpFZyixqKFEExPHVUUL+pPkBEPw47s/6NDQ4n1m6T/ySeDW3p54jp45z2EJ0RSOgilqee1WhtelXfA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"rel = "stylesheet">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="sample.css">
+    </head>
+    <body>
+        <div class="overlay">
+            <div id="loading-img"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+             <!--   <center>
+                    <img  src="https://www.tsim.in/wp-content/uploads/2016/07/logo.png">
+                </center>
+--!>
+                <form  enctype="multipart/form-data"  id="msform" name="msform" >
+                    <!-- progressbar -->
+                    <ul id="progressbar" >
+                        <li class="active">Sim Serial Number</li>
+                        <li class="hiding" id="personal_li">Personal Details</li>
+                        <li class="hiding" id="documentation_li">Documentation Upload</li>
+                        <li class="hiding" id="activation_li">Activation Date</li>
+                    </ul>
+
+
+
+
+
+
+			<!--ISSUE 3628-->
+			<div id="sim-card-selection-frame" style="display: none;">
+	<!--		    <h4 id="frame-title">Select eSIM to Proceed</h4> !-->
+    
+			    <!-- Progress Bar Section
+			    <div id="progress-section" style="margin-bottom: 15px;">
+			        <div class="progress">
+			            <div id="progress-bar" class="progress-bar" role="progressbar" 
+			                style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+			                <span id="progress-bar-text">0% Completed</span>
+			            </div>
+			        </div>
+			    </div>
+    				-->
+
+			    <ol id="sim-card-list" style="margin-top: 15px;">
+			        <!-- List items will be dynamically added here -->
+			    </ol>
+			</div>	
+
+
+
+
+
+
+
+
+                    <fieldset id="fieldset1">
+                        <h2 class="fs-title">Sim Serial Number</h2>
+                        <h3 class="fs-subtitle">The SIM serial number is the digits below the barcode on the SIM card, skip any alphabets.</h3>
+                        <center><img class="img-responsive" width="400" height="400" src="activation-card2.png"></center>
+                        <br>
+                        <br><br>
+
+			<!-- Label that dynamically updates style="font-weight: bold; -->
+			<label id="inputLabel" for="num" style="display: block;"></label>
+			
+                        <b>	<span style='float:left !important; color:red;' id="name_status"></span></b>
+						<input type="text" name="num" maxlength="24" id="num" placeholder="" value="" onkeyup="processChange(event)"/>
+						<div class="hiding loader"></div>
+                        <input type="hidden" name="serialNo" id="serialNo" placeholder="Enter Serial Number" value=""   />
+                        <input type="hidden" name="ordNo" id="ordNo" placeholder="Enter Order Number" value=""/>
+		
+
+
+                       <input type="hidden" id="count_query" name="count_query" value=""/>
+			<input type ="hidden" id="total_esims" name="total_esims" value=""/>
+			<input type ="hidden" id="esim_label" name="esim_label" value=""/>
+			<input type ="hidden" id="trip_id" name="trip_id" value=""/>
+			 <br>
+                        <input type="hidden" name="Tsim" id="Tsim" value="">
+                        <p id='file_upload_notice'></p>
+                        <div id="details" style="border: 1px solid #ee0979;"></div>
+                        <input type="button" name="fnext" id="fnext_ind" class="hiding next action-button" value="Next"/>
+                        <input type="button" name="fnext" id="fnext_mobi" class="hiding next action-button" value="Next"/>
+                    </fieldset>
+                    <fieldset id="fieldset2">
+                        <h2 class="fs-title">Personal Details</h2>
+                        <!-- <h3 id="fs-subtitle" class="fs-subtitle">Validity period begins on activation, so activate only the day before you travel</h3> -->
+                        <b>Name on your Passport <span class="small">(Please update, if changed)</b>  <input type="text" name="fname" id="fname"   placeholder="Name on your Passport" />
+                        <b>Email</b>  <input type="email" name="email" id="email" placeholder="We will send you activation messages by email/text" />
+                        <b>Mobile number</b> <input type="tel" name="mobileno" id="mobileno" pattern="[0-9\+\-]+" placeholder="We will send you activation messages by email/text" />
+                        <b>Passport number <span class="small">(Please update, if changed)</b><input type="text" name="pass_no" id="pass_no" placeholder="Enter your passport number" />
+                        <b>City of issue <span class="small">(Please update, if changed)</span></b></b><input type="text" name="pass_city" id="pass_city" placeholder="Enter your passport city" />
+                        <b id="expiry_date">Passport Expiry Date <span class="small">(Please update, if changed)</b> <input type="text" name="expdate" id="expdate" placeholder="Passport Expity Date"  onkeydown="return false"/>
+		<!--<div class="ind_imei hiding">
+                            <b class="imei_heading">IMEI Number</b>	
+                            <input type="text"  maxlength="15" name="imei_ind" id="imei_ind" placeholder=" Dial *#06# from your device" oninput="validateInput(this)">
+				 <span class="icon-info" style="cursor: pointer; color: #007bff; font-size: 16px;" title="Why is IMEI needed?">?</span>
+                                 </b> 
+                            <input type="text" maxlength="15" name="ind_imei" id="ind_imei" placeholder="Dial *#06# from your device" oninput="validateInput(this)">
+                        </div>
+		--!>
+			<div class="ind_imei hiding">
+			    <b class="imei_heading">IMEI Number</b>
+			    <span class="icon-info" style="cursor: pointer; color: #007bff; font-size:small;" title="Click to Know more?">Why is IMEI needed?</span>
+			    <input type="text" maxlength="15" name="imei_ind" id="imei_ind" placeholder="Dial *#06# from your device" oninput="validateInput(this)">
+			</div>
+                        <div class="ind_eid hiding">
+                            <b>EID Number</b>	
+                            <input type="text" maxlength="32" name="eid_ind" id="eid_ind" placeholder="Enter EID number" oninput="validateInput(this)">	
+                        </div>
+                        <b id="active_date">Activation Date</b> <input type="text" name="date" id="date" placeholder="Activation Date (mm/dd/yyyy)"  onpaste="return false;"  />
+                        <br>
+                        <div id="activation_info" style='border: 2px solid #ee0979; color:red; padding-right:5%; padding-left:9%; padding-top:3%; padding-bottom:3%; text-align:left; font-size:14px'>
+                            <b>
+                                <ol>
+                                <li> No activation on Sundays
+                            </b>
+                            </li><br>
+                            <li><b>Activation</b> is completed <b>at End of Day</b> on date you select.</li>
+                            <br> 
+                            <li> <b>Please allow 24 hours for activation</b> if selecting today's date </li>
+                            <br> 
+                            <li> If your phone number is not mentioned on your card, it will be sent to you by email after activation.</li>
+                        </div>
+                        <br>
+                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        <input type="button" name="snext" id="snext_ind" class="next action-button" value="Next"   />
+                    </fieldset>
+                    <fieldset id="fieldset3">
+                        <h2 class="fs-title">Documents Upload</h2>
+                        <h3 class="fs-subtitle">Upload JPG,JPEG,PNG,PDF,DOCX,DOC File</h3>
+                        <b id="pfp">Passport Front Page</b> 
+                        <h6 id="uploadedfp" style="margin-bottom:1px; color:red;"></h6>
+                        <table>
+                            <tr>
+                                <td style="width: 100%;">
+                                    <input type="file" name="pass1" id ="pass1" placeholder="Passport Front">
+                                </td>
+                                <td>
+                                    <div id="image_pass1" onclick="imgClick('image_pass1')"> </div>
+                                    <canvas class="pdf-preview" id="image_c_pass1" width="150" ></canvas>
+                                </td>
+                                <td><a style="margin-left: 50%;" id="pass1a"  onclick="clearVal('pass1')">Clear</a></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <b id="pbp">Passport Back Page</b>
+                        <h6 id="uploadedbp" style="margin-bottom:1px; color:red;"></h6>
+                        <table>
+                            <tr>
+                                <td style="width: 100%;">
+                                    <input type="file" name="pass2" id ="pass2" placeholder="Passport Back">
+                                </td>
+                                <td>
+                                    <div id="image_pass2" onclick="imgClick('image_pass2')"> </div>
+                                    <canvas class="pdf-preview" id="image_c_pass2" width="150" ></canvas>
+                                </td>
+                                <td><a style="margin-left: 50%;" id="pass2a"  onclick="clearVal('pass2')">Clear</a></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <b id="vpo">Visa or Ticket if Visa on arrival</b>
+                        <h6 id="uploadedvisa" style="margin-bottom:1px; color:red;"></h6>
+                        <table>
+                            <tr>
+                                <td style="width: 100%;">
+                                    <input type="file" name="visa" id ="visa" placeholder="Visa" />
+                                </td>
+                                <td>
+                                    <div id="image_visa" onclick="imgClick('image_visa')" > </div>
+                                    <canvas class="pdf-preview" id="image_c_visa" width="150" ></canvas>
+                                </td>
+                                <td><a style="margin-left: 50%;" id="visaa"  onclick="clearVal('visa')">Clear</a></td>
+                            </tr>
+                        </table>
+                        <div class="note" style=' color:red;'></div>
+                        <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                        <input type="button" id="msform_submit" name="submit" class="submit action-button" value="Submit"/>
+                    </fieldset>
+                    <fieldset id="fieldset4" class="hiding">
+                        <h2 class="fs-title">Activation Date</h2>
+                        <h3 class="fs-subtitle">Validity period begins on activation, so activate only the day before you travel</h3>
+                        <b>First Name</b>  <input type="text" name="fname_mobi" id="fname_mobi" placeholder="First Name"/>
+                        <b>Email</b>  
+						<input type="email" name="email_mobi" id="email_mobi"  placeholder="We will send you activation messages by email/text" />
+                        <b>Your current mobile number <span class="small">(Optional)</span></b></b> 
+						<input type="text" name="mobileno_mobi" id="mobileno_mobi" oninput="validateField(this)"  placeholder="We will send you activation messages by email/text" />
+                        <div id="zipcodes" class="hiding">
+                            <b>Zip code <span class="small">(Optional)</span></b></b> <input type='text' name='zipcode' maxlength='6' id='zipcode' oninput="validateInput(this)" placeholder='Zip code' value='' />
+                        </div>
+                        <b id="amz_ord_mobi_label">Amazon Order ID <span class="small">(Optional)</span></b></b>  
+						<input type="text" name="amz_ord_mobi" id="amz_ord_mobi" oninput="validateField(this)" placeholder="Amazon Order ID">
+                        <!--<div class="mobi_imei hiding">
+                            <b class="imei_heading">IMEI Mobi Number</b>	
+			<span class="icon-info" style="cursor: pointer; color: #007bff; font-size: 16px;" title="Why is IMEI needed?">?</span>
+   				 </b>        
+			    <input type="text" maxlength="15" name="imei_mobi" id="imei_mobi" placeholder="Dial *#06# from your device" oninput="validateInput(this)">
+                        </div>
+			--!>
+			<div class="mobi_imei hiding">
+    			<b class="imei_heading">IMEI Number</b>
+    			<span class="icon-info" style="cursor: pointer; color: #007bff; font-size: small;" title="Click to Know more">Why is IMEI needed?</span>
+    			<input type="text" maxlength="15" name="imei_mobi" id="imei_mobi" placeholder="Dial *#06# from your device" oninput="validateInput(this)">
+			</div>
+                        <div class="mobi_eid hiding">
+                            <b>EID Number</b>	
+                            <input type="text"  maxlength="32" name="eid_mobi" id="eid_mobi" placeholder="Enter EID number" oninput="validateInput(this)">
+                        </div>
+                        <b>Activation Date</b> 
+						<input type="text" name="date_mobi" id="date_mobi" placeholder="Activation Date" onpaste="return false;" /><br>
+                        <b><span style=' color:red;'>Please allow 24 hours for activation<br> if selecting today's date</span></b>
+						<br>
+						<br>
+                        <div style='border: 2px solid #ee0979; color:red; padding-right:5%; padding-left:9%; padding-top:3%; padding-bottom:3%;  text-align:left; font-size:14px'>
+                            <b>
+                                <ol>
+                                <li> No activation on Sundays
+                            </b>
+                            </li><br>
+                            <li><b>Activation</b> is completed <b>at End of Day</b> on date you select.</li>
+                            <br> 
+                            <li> If your phone number is not mentioned on your card, it will be sent to you by email after activation.</li>
+                        </div>
+                        <br>
+						<input type="button" name="previous" class="previous_mobi action-button-previous" value="Previous" />
+                        <input type="button" name="submit" id="mobi_submitform" class="submit action-button" value="Submit"/>
+                    </fieldset>
+                </form>
+                <div class="dme_link">
+                </div>
+            </div>
+        </div>
+        <script  src="app.js?v=35" type="text/javascript"></script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const showSerialNumber = urlParams.get('show-sim-serial');
+            const showOrderNumber = urlParams.get('show-order-num');
+            if (showSerialNumber === 'y') {
+                document.getElementById('num').placeholder = "Enter Sim Serial Number or Amazon Order Number";
+		inputLabel.textContent = "Enter Sim Serial Number or Amazon Order Number";
+
+            }
+            if (showOrderNumber === 'z') {
+                document.getElementById('num').placeholder = "Enter Sim Serial Number or Order Number";
+		inputLabel.textContent = "Enter Sim Serial Number or Order Number";
+            }
+            var parameters = location.search.substring(1).split("&");
+            if(parameters.length > 1){
+            	var temp = parameters[0].split("=");
+            	var order_number = unescape(temp[1]);
+            	//console.log(o);
+            	var temp = parameters[1].split("=");
+            	var tsim = unescape(temp[1]);
+            	//console.log(tsim);
+            	document.getElementById('Tsim').value = tsim;
+            	if(tsim=="tsim"){	
+					// document.getElementById("email").readOnly = true;
+					// document.getElementById("email").style.background = 'lightgrey';
+					// document.getElementById("email").style.pointerEvents = 'none';	
+					// document.getElementById("mobileno").readOnly = true;	
+					// document.getElementById("mobileno").style.background = 'lightgrey';	
+					// document.getElementById("mobileno").style.pointerEvents = 'none';	
+					// document.getElementById('activation_info').style.display = 'none';
+					// document.getElementById('date').style.display = 'none';
+					// document.getElementById('active_date').style.display = 'none';
+                    $("#activation_info,#date,#active_date").addClass("hiding");
+					//document.getElementById('fs-subtitle').style.display = 'none';
+            	}
+                window.onload = function(){
+                    $(".loader").removeClass("hiding");
+                    $("#ordNo").val("");
+		    var number = document.getElementById("serialNo").value;
+		    var countQuery = document.getElementById("count_query").value;
+		//	var totalEsims = document.getElementById("total_esims").value;
+                    $.ajax({
+                        type: "post",
+                        url: "checkvalue.php",
+                        dataType: "json",
+                        async:false,
+                        data: { order_no : order_number, t : tsim , count_query : countQuery },
+                        success : function(response){               
+                            $(".loader").addClass("hiding");
+                            $("#fnext_mobi").addClass("hiding");
+                            $("#activation_li").addClass("hiding");
+                            $("#personal_li").removeClass("hiding");
+                            $("#documentation_li").removeClass("hiding");
+                            document.getElementById("ordNo").value=order_number;
+                            switch(response.code){
+                                case 101:
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '',
+                                    text: "Order is either canceled or invalid"
+                                });
+                                $("#fnext_ind").addClass("hiding");
+                                    break;
+                                case 208:
+                                    imei_eid(response.info);
+                                    //console.log(response.code);
+                                    //console.log(response.msg);
+                                    handleResponse208(response.msg);
+                                    break;
+                                case 209:
+                                    imei_eid(response.info);
+                                    //console.log(response.code);
+                                    handleResponse209(response.msg);
+                                    break;
+                                case 201:
+                                    imei_eid(response.info);
+                                    //console.log(response.code);
+                                    //console.log(response.msg);
+                                    handleResponse201(response.msg);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+            else{
+                $("#activation_info,#date,#active_date").removeClass("hiding");
+            }     
+        </script>
+    </body>
+</html>
+
+
